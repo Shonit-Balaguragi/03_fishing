@@ -1,7 +1,7 @@
 """
-Fishing Game (Lab Starter)
+Fishing Game
 
-Run with:  python3 main.py
+Run with: python3 main.py
 """
 
 import pygame
@@ -12,19 +12,33 @@ from game.renderer import WINDOW_SIZE
 
 def main():
     pygame.init()
+
     screen = pygame.display.set_mode(WINDOW_SIZE)
     pygame.display.set_caption("Fishing")
+
     clock = pygame.time.Clock()
     font = pygame.font.SysFont("consolas", 22)
 
     engine = GameEngine()
+
     running = True
+
     while running:
         for event in pygame.event.get():
+
             if event.type == pygame.QUIT:
                 running = False
-            elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                engine.try_cast()
+
+            elif event.type == pygame.KEYDOWN:
+
+                # Space = cast fishing hook
+                if event.key == pygame.K_SPACE:
+                    engine.try_cast()
+
+                # R = restart after round ends
+                elif event.key == pygame.K_r:
+                    if not engine.round_active:
+                        engine.reset_round()
 
         engine.update()
         engine.draw(screen, font)
